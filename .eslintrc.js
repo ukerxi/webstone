@@ -23,5 +23,8 @@ module.exports = {
         "max-len": "off",
         // disable rules from base configurations
         "no-console": "off",
+        "camelcase": "off",
+        "space-before-function-paren": "off",
+        "valid-jsdoc": "off"
     }
 };

@@ -5,8 +5,7 @@
  *  @description the entry of the project
 * */
 
-const webstone = require('./core/index.js');
-const Helpers = require('./templates/views/helpers');
+const webstone = require('./core/webstone.js');
 // 初始化配置
 webstone.init({
     name: 'webstone', // project name
@@ -19,14 +18,9 @@ webstone.init({
         cache: false,
         extension: 'hbs',
         options: {
-            data: {
-                test: '测试重配置页传进来的数据',
-            },
-            layoutsDir: 'templates/views/layouts',
             partialsDir: 'templates/views/partials',
             viewsDir: 'templates/views',
-            defaultLayout: 'default',
-            helpers: new Helpers(),
+            helpersDir: 'templates/views/helpers',
         },
     },
 });
