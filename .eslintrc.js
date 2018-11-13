@@ -25,6 +25,7 @@ module.exports = {
         "no-console": "off",
         "camelcase": "off",
         "space-before-function-paren": "off",
-        "valid-jsdoc": "off"
+        "valid-jsdoc": "off",
+        "new-cap": "off"
     }
 };

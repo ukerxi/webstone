@@ -13,15 +13,14 @@ webstone.init({
     port: 3000,
     env: 'development', // 'production'
     engine: 'handlebars',
+    logger: false, // 是否开启logger
     engine_config: {
-        map: {hbs: 'handlebars'},
         cache: false,
-        extension: 'hbs',
-        options: {
-            partialsDir: 'templates/views/partials',
-            viewsDir: 'templates/views',
-            helpersDir: 'templates/views/helpers',
-        },
+        extname: '.hbs',
+        partialsDir: 'templates/views/partials',
+        viewsDir: 'templates/views',
+        helpersDir: 'templates/views/helpers',
+        layoutsDir: 'templates/views/layouts',
     },
 });
 

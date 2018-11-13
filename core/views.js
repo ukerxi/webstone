@@ -4,11 +4,12 @@
 
 const async = require('async');
 
-function View(ctx, next) {
-    if (!ctx) {
+function View(req, res, next) {
+    if (!req) {
         throw new Error('Error: Express request object is required.');
     }
-    this.ctx = ctx;
+    this.res = res;
+    this.req = req;
     this.next = next;
     this.initQueue = []; // executed first in series
 }
@@ -23,30 +24,26 @@ View.prototype.on = function (on, callback) {
 };
 
 View.prototype.render = function (viewPath, locals) {
-    const ctx = this.ctx;
     const self = this;
-    const renderFn = async function (resolve) {
+    const renderFn = function () {
         if (typeof locals === 'undefined') {
-            locals = this.ctx.locals;
+            locals = this.res.locals;
         }
-        await this.ctx.render(viewPath, locals);
-        resolve();
-        console.log(this.ctx);
+        locals.layout = false;
+        this.res.render(viewPath, locals);
     }.bind(this);
-    return new Promise(function (resolve, reject) {
-        async.eachSeries(self.initQueue, function (i, next) {
-            if (Array.isArray(i)) {
-                // process nested arrays in parallel
-                async.parallel(i, next);
-            } else if (typeof i === 'function') {
-                // process single methods in series
-                i(next);
-            } else {
-                throw new Error('View.render() events must be functions.');
-            }
-        }, function (err) {
-            renderFn(resolve);
-        });
+    async.eachSeries(self.initQueue, function (i, next) {
+        if (Array.isArray(i)) {
+            // process nested arrays in parallel
+            async.parallel(i, next);
+        } else if (typeof i === 'function') {
+            // process single methods in series
+            i(next);
+        } else {
+            throw new Error('View.render() events must be functions.');
+        }
+    }, function (err) {
+        renderFn();
     });
 };
 

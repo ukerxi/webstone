@@ -5,7 +5,7 @@
 let request = require('request');
 const _ = require('lodash');
 let url = require('url');
-const requsetPro = require('request-promise');
+const requestPro = require('request-promise');
 
 // 选项配置
 let options = {
@@ -21,7 +21,6 @@ let options = {
 };
 // 请求链接配置，区分正式环境和测试环境
 let _baseUrl = 'https://wx.dudubashi.com'; // 正式环境
-_baseUrl = 'http://apitest.dudubashi.com'; // 测试环境
 
 /**
  * @name 统一执行请求
@@ -46,7 +45,7 @@ function handleRequest(new_options, callback) {
         }
     }
     if (_options.isPromise) {
-        return requsetPro(_options).then(async function (response) {
+        return requestPro(_options).then(async function (response) {
             if (typeof callback === 'function') {
                 // 执行回调
                 await callback(response ? JSON.parse(response) : '');

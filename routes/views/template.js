@@ -6,21 +6,19 @@ const routeList = [];
 routeList.push({
     method: 'get',
     path: '/',
-    handler: async function(ctx, next) {
-        ctx.response.type = 'html';
-        ctx.response.body = 'test post';
-        next();
+    handler: async function(req, res, next) {
+        res.send('test post');
     },
 });
 
 routeList.push({
     method: 'get',
     path: '/template',
-    handler: async function(ctx, next) {
-        await ctx.render('index', {
+    handler: function(req, res, next) {
+        res.render('index', {
             text: '测试发顺丰似睡非睡',
+            layout: false,
         });
-        next();
     },
 });
 
@@ -28,32 +26,32 @@ routeList.push({
     method: 'get',
     path: '/333',
     handler: [
-        async function(ctx, next) {
-            ctx.locals.section = 'home';
-            ctx.locals.data = {
+        function (req, res, next) {
+            res.locals.section = 'home';
+            res.locals.data = {
                 banner_list: [],
                 news_list: [],
             };
-            await request.post('/index.php/activities/banner', {
+            request.post('/index.php/activities/banner', {
                 city: '深圳市',
                 show_type: 9,
-            }, async function (result) {
-                ctx.locals.data.banner_list = result.data;
-                await next();
-            }, {isPromise: true});
+            }, function (result) {
+                res.locals.data.banner_list = result.data;
+                next();
+            });
         },
-        async function(ctx, next) {
-            await request.post('/index.php/official/news/get_list', {
+        function (req, res, next) {
+            request.post('/index.php/official/news/get_list', {
                 page: 1,
-            }, async function (result) {
-                ctx.locals.data.news_list = result.data.list;
-                await next();
-            }, {isPromise: true});
+            }, function (result) {
+                res.locals.data.news_list = result.data.list;
+                next();
+            });
         },
-        async function(ctx, next) {
-            ctx.locals.test_trrr = 'sfsfsfsf';
-            await ctx.render('index', ctx.locals);
-            next();
+        function (req, res, next) {
+            res.locals.test_trrr = 'sfsfsfsf';
+            res.locals.layout = false;
+            res.render('index', res.locals);
         },
     ],
 });
