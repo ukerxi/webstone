@@ -15,10 +15,9 @@ module.exports = {
     "parser": "babel-eslint",
     "rules": {
         // enable additional rules
-        "indent": ["error", 4],
+        "indent": "off",
         "linebreak-style": ["off", "unix"],
         "quotes": ["error", "single"],
-        "semi": ["error", "always"],
         "require-jsdoc": "off",
         "max-len": "off",
         // disable rules from base configurations
@@ -26,6 +25,8 @@ module.exports = {
         "camelcase": "off",
         "space-before-function-paren": "off",
         "valid-jsdoc": "off",
-        "new-cap": "off"
+        "new-cap": "off",
+        "comma-dangle": "off",
+        "semi": "off"
     }
 };
