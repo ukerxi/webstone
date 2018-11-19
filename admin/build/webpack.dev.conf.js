@@ -13,6 +13,9 @@ const portfinder = require('portfinder')
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
+const webstoneConfig = require('../../webstone.js');
+const webstone = require('../../core/webstone.js');
+
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
@@ -42,6 +45,11 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
+    },
+    before: function(app, server) {
+      // 启动前台服务
+      webstone.init(webstoneConfig);
+      webstone.start(app);
     }
   },
   plugins: [

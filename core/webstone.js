@@ -12,13 +12,10 @@ const path = require('path');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
-const glob = require('glob');
 const middleWare = require('../routes/middleware');
 const exphbs = require('express-handlebars');
 
 // 实例化
-const app = express();
-const router = express.Router();
 // 定义webstone 类
 function Webstone() {
     // default project config
@@ -26,12 +23,12 @@ function Webstone() {
         name: 'Webstone', // project name
         static_path: 'public', // static file path
         port: 3000,
-        env: 'development', // 'production'
+        env: 'dev', // 'pro'
         engine: 'handlebars',
         logger: true, // logger control
         engine_config: {
             cache: false,
-            extension: 'hbs',
+            extname: '.hbs',
             partialsDir: 'templates/views/partials',
             viewsDir: 'templates/views',
             helpersDir: 'templates/views/helpers',
@@ -51,8 +48,9 @@ Webstone.prototype.init = function(configs) {
     if (self._options.engine_config.helpersDir) {
         self._options.engine_config.helpers = self.getHelpers(self._options.engine_config.helpersDir);
     }
-    self.app = app;
-    self.router = router;
+    self.app = express();
+    self.router = express.Router();
+    return self
 };
 
 Webstone.prototype.set = function(key, val) {
@@ -84,14 +82,14 @@ Webstone.prototype.getHelpers = function(filesPath) {
     return new Helpers();
 };
 
-Webstone.prototype.start = function() {
+Webstone.prototype.start = function(newApp) {
     // start server
     const self = this;
-    let app = self.app;
+    let app = newApp || self.app; // 根据传递的使用其他的 express app
     let router = self.router;
     // use static file
+    console.log('rtet', self._options)
     const _static = self.get('static_path');
-    app.evn = self.get('env');
     // logger
     if (self.get('logger')) {
         app.use(logger());
@@ -112,6 +110,10 @@ Webstone.prototype.start = function() {
         } else {
             app.use(express.static(path.join(__dirname, '../', _static)));
         }
+    }
+    // 后台管理的资源文件
+    if (self.get('env') === 'pro') {
+      app.use(express.static(path.join(__dirname, '../', 'admin/dist')));
     }
     // 初始化引擎，默认使用 bandlebars
     app.enable('view cache'); // 禁用view渲染缓存
@@ -140,10 +142,12 @@ Webstone.prototype.start = function() {
         }
     });
     app.use(router);
-    app.listen(self.get('port'), function() {
+    if (self.get('env') === 'pro') {
+      app.listen(self.get('port'), function() {
         // tips start log
         self.log();
-    });
+      });
+    }
 };
 
 // 实例化导出

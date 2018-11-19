@@ -5,24 +5,33 @@
  *  @description the entry of the project
 * */
 
-const webstone = require('./core/webstone.js');
-// 初始化配置
-webstone.init({
-    name: 'webstone', // project name
-    static_path: 'public', // static file path
-    port: 3000,
-    env: 'development', // 'production'
-    engine: 'handlebars',
-    logger: false, // 是否开启logger
-    engine_config: {
-        cache: false,
-        extname: '.hbs',
-        partialsDir: 'templates/views/partials',
-        viewsDir: 'templates/views',
-        helpersDir: 'templates/views/helpers',
-        layoutsDir: 'templates/views/layouts',
-    },
-});
+const Webstone = require('./core/webstone.js');
+const globalConfig = {
+  name: 'webstone', // project name
+  static_path: 'public', // static file path
+  port: 3000,
+  env: 'dev', // pro / dev 环境区分
+  engine: 'handlebars',
+  logger: false, // 是否开启logger
+  engine_config: {
+    cache: false,
+    extname: '.hbs',
+    partialsDir: 'templates/views/partials',
+    viewsDir: 'templates/views',
+    helpersDir: 'templates/views/helpers',
+    layoutsDir: 'templates/views/layouts',
+  },
+};
 
-// 启动项目
-webstone.start();
+// 正式环境直接初始化
+if (globalConfig.env === 'pro') {
+  // 初始化配置
+  Webstone.init(globalConfig);
+  // 启动项目
+  Webstone.start();
+}
+
+// 导出配置
+module.exports = globalConfig;
+
+
