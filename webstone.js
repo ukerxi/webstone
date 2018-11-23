@@ -4,8 +4,6 @@
  *  @author ukerxi
  *  @description the entry of the project
 * */
-
-const Webstone = require('./core/webstone.js');
 const globalConfig = {
   name: 'webstone', // project name
   static_path: 'public', // static file path
@@ -21,8 +19,16 @@ const globalConfig = {
     helpersDir: 'templates/views/helpers',
     layoutsDir: 'templates/views/layouts',
   },
+  mongo_config: {
+    is_connect: true, // 是否开启数据库连接
+    url: 'mongodb://localhost:27017/webstone' // 数据库的url
+  }
 };
+console.log('teszt')
+// 导出配置
+module.exports = globalConfig;
 
+const Webstone = require('./core/webstone.js');
 // 正式环境直接初始化
 if (globalConfig.env === 'pro') {
   // 初始化配置
@@ -30,8 +36,5 @@ if (globalConfig.env === 'pro') {
   // 启动项目
   Webstone.start();
 }
-
-// 导出配置
-module.exports = globalConfig;
 
 

@@ -15,7 +15,6 @@ const PORT = process.env.PORT && Number(process.env.PORT)
 
 const webstoneConfig = require('../../webstone.js');
 const webstone = require('../../core/webstone.js');
-
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })

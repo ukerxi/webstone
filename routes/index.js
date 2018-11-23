@@ -6,8 +6,12 @@
 const _ = require('lodash');
 const common = require('./../core/common.js');
 let routeList = [];
-
 // 注册路由
+// controllers router
+_.forEach(common.registerRoute('/api', 'controllers'), function(item) {
+  routeList.push(item);
+});
+
 // home page
 _.forEach(common.registerRoute('/', 'home'), function(item) {
     routeList.push(item);
