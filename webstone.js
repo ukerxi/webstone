@@ -24,7 +24,6 @@ const globalConfig = {
     url: 'mongodb://localhost:27017/webstone' // 数据库的url
   }
 };
-console.log('teszt')
 // 导出配置
 module.exports = globalConfig;
 

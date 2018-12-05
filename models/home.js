@@ -1,19 +1,15 @@
 /**
  * @name home model
  * */
-const mongoose = require('../core/db');
-let _model = {
+const initModel = require('../core/common_model');
+const Types = require('../core/model_types');
+let _model = initModel({
   name: 'home',
-  schema: '',
-  exp: ''
-};
-if (mongoose) {
-  _model.schema = new mongoose.Schema({
-    name: {type: String},
-    text: {type: String},
-    updated: {type: Date, default: Date.now}
-  });
-  _model.exp = mongoose.model(_model.name, _model.schema)
-}
-
-module.exports = _model.exp;
+  data: {
+    name: {type: Types.Text},
+    text: {type: Types.Text},
+    isShow: {type: Types.Boolean, default: true},
+    updated: {type: 'Date', default: Date.now}
+  }
+});
+module.exports = _model;

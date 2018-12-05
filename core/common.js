@@ -4,13 +4,15 @@
 
 const _ = require('lodash');
 const path = require('path');
+
 /**
  *  @name logTips 提示弹框
  *  @param {string} str tips info
  *  @param {object} options tips config
  * */
-function logTips (str, options) {
-    console.log(str);
+
+function logTips(str, options) {
+  console.log(str);
 }
 
 /**
@@ -20,25 +22,26 @@ function logTips (str, options) {
  *  @return {array} 路由数据
  * */
 function registerRoute(path, viewName) {
-    // handle routes
-    let _list = [];
-    const _handler = require(getPath(viewName, '../routes/views/'));
-    if (_.isFunction(_handler)) {
-        _list.push({
-            path: '/',
-            handler: _handler,
-        });
-    } else if (_.isArray(_handler)) {
-        _.forEach(_handler, function(item) {
-            _list.push({
-                path: item.path === '/' ? path : path + item.path,
-                handler: item.handler,
-                method: item.method,
-            });
-        });
-    }
-    return _list;
+  // handle routes
+  let _list = [];
+  const _handler = require(getPath(viewName, '../routes/views/'));
+  if (_.isFunction(_handler)) {
+    _list.push({
+      path: '/',
+      handler: _handler,
+    });
+  } else if (_.isArray(_handler)) {
+    _.forEach(_handler, function (item) {
+      _list.push({
+        path: item.path === '/' ? path : path + item.path,
+        handler: item.handler,
+        method: item.method,
+      });
+    });
+  }
+  return _list;
 }
+
 /**
  *  @name getPath 获取根目录下的路劲
  *  @param {string} str 匹配的文件
@@ -46,14 +49,53 @@ function registerRoute(path, viewName) {
  *  @return {string} 相对根目录文件路径
  * */
 function getPath(str, relativePath) {
-    // 直接定位到 views 文件夹下
-    var _relativePath = relativePath || './../';
-    return path.join(__dirname, _relativePath, str);
+  // 直接定位到 views 文件夹下
+  const _relativePath = relativePath || './../';
+  return path.join(__dirname, _relativePath, str);
+}
+
+/**
+ *  @name getSeriesType 数据类型系列化
+ *  @param {object} res 数据实例
+ *  @param {object} origin 初始化的数据配置
+ *  @return {object} 系列化后的数据
+ * */
+function getSeriesType(res, origin) {
+  let _res = {};
+  let _data = {};
+  if (res) {
+    _data = res.toObject();
+  }
+  _.forEach(_data, function (item, key) {
+    _res[key] = {
+      data: item,
+      type: (origin[key] && origin[key].type) || 'String'
+    }
+  });
+  return _res;
+}
+
+/**
+ *  @name getResFormat 返回数据的模板
+ *  @param {object} param 初始数据
+ *  @return {object} 模板
+ * */
+function getResFormat(param) {
+  let _res = {
+    code: '0000',
+    data: {},
+    info: '获取成功'
+  };
+  const _param = param || {};
+  _res = _.merge(_res, _param);
+  return _res;
 }
 
 // export module
 module.exports = {
-    log: logTips,
-    registerRoute: registerRoute,
-    getPath: getPath,
+  log: logTips,
+  registerRoute: registerRoute,
+  getPath: getPath,
+  getSeriesType: getSeriesType,
+  getResFormat: getResFormat,
 };

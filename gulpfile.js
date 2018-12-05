@@ -1,7 +1,21 @@
 const gulp = require('gulp');
-const _process = require('./core/process');
 const exec = require('child_process').exec;
-let _subProcess = ''
+let _subProcess = '';
+// 启动任务
+function runDev() {
+  _subProcess = exec('npm run dev', function (err, stdout, stderr) {
+    if (err) {
+      _subProcess = {};
+      console.log(err)
+    } else {
+      console.log(stdout)
+    }
+  });
+  _subProcess.stdout.on('data', function(data) {
+    console.log(data);
+  });
+}
+
 // 启动任务
 gulp.task('restart', function () {
   if (_subProcess.pid) {
@@ -9,16 +23,11 @@ gulp.task('restart', function () {
       if (err) {
         return console.log('释放进程失败！');
       } else {
-        _subProcess = exec('npm run dev', function (err, stdout, stderr) {
-          if (err) {
-            console.log('重启进程！')
-          } else {
-            console.log(stdout)
-            console.log('gulp server restart...')
-          }
-        });
+        runDev();
       }
     });
+  } else {
+    runDev();
   }
 });
 gulp.task('server', function() {
@@ -32,13 +41,5 @@ gulp.task('server', function() {
 gulp.task('default', ['server'], function() {
   console.log('gulp start...');
   // 将你的默认的任务代码放在这
-  _subProcess = exec('npm run dev', function(err, stdout, stderr) {
-    console.log('fdsfsffs')
-    if (err) {
-      console.log('重启进程！')
-    } else {
-      console.log(stdout)
-      console.log(stderr)
-    }
-  });
+  runDev();
 });
