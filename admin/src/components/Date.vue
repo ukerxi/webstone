@@ -2,36 +2,34 @@
   <div class="view-component">
     <span class="item-title">{{view_control.title}}：</span>
     <div class="item-content">
-      <el-input placeholder="请输入内容" v-model="text" clearable></el-input>
+      <el-date-picker v-model="val" type="date" value-format="timestamp" placeholder="选择日期"></el-date-picker>
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'wsText',
+    name: 'wsDate',
     props: ['viewData', 'viewControl'],
     data() {
       return {
-        text: '',
-        view_control:{
-          title: '标题'
+        val: '',
+        view_control: {
+          title: '选择日期'
         }
       }
     },
     watch: {
-      text: function (newVal, oldVal) {
+      val: function (newVal, oldVal) {
         // 触发父组件数据变更
+        newVal = newVal || ''
         this.triggerData(newVal)
       }
     },
     created() {
       var _self = this
       // 赋初值
-      _self.text = _self.viewData || ''
-      if (_self.viewControl && _self.viewControl.title) {
-        _self.view_control.title = _self.viewControl.title
-      }
+      _self.val = parseInt(_self.viewData) || Date.now()
     },
     methods: {
       triggerData(data) {

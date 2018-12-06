@@ -2,7 +2,7 @@
  * @name home model
  * */
 const HomeModel = require('../models/home').model;
-const HomeSchema = require('../models/home').schema;
+const HomeOrigin = require('../models/home').origin;
 const getSeriesType = require('../core/common').getSeriesType;
 
 /**
@@ -12,17 +12,10 @@ function add (param, callback) {
   const home = new HomeModel({
     name: 'ukerxi',
     text: '测试数据库eee44',
-    isShow: false,
-    mix: {test: 'testy'},
-    arr: ['33', 'reere'],
-    update: new Date()
+    isShow: '1',
+    update: Date.now()
   });
   home.save(function (err, res) {
-    if (err) {
-      // console.log('error:', err)
-    } else {
-      // console.log('res:', res)
-    }
     // 执行回调
     if (typeof callback === 'function') {
       callback({
@@ -34,15 +27,19 @@ function add (param, callback) {
 }
 
 /**
- * @name get 添加数据
+ * @name getById 查询数据
+ * @param {string} id
+ * @param {function} callback 回调
+ * @param {boolean} isFormat 是否进行格式化types
  * */
-function getById (id, callback) {
-  HomeModel.findById(id, 'name text updated isShow mix arr', function (err, res) {
+function getById (id, callback, isFormat) {
+  HomeModel.findById(id, 'name text updated isShow flag', function (err, res) {
     // 执行回调
+    console.log(err)
     if (typeof callback === 'function') {
       callback({
         status: err,
-        data: getSeriesType(res, HomeSchema)
+        data: err ? {} : (isFormat ? getSeriesType(res, HomeOrigin) : res.toObject())
       });
     }
   })

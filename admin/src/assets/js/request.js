@@ -2,7 +2,6 @@
  *  @name Request 前端请求插件
  * */
 import axios from 'axios'
-
 function Request() {
   this.name = 'axios';
   this.version = '0.18.0';
@@ -12,10 +11,11 @@ function Request() {
     axios({
       method: _param.method || 'post',
       url: _param.url,
-      data: _param.data || {}
+      data: _param.data || {},
+      params: _param.params || {},
     }).then(function (response) {
       if (typeof _param.callback === 'function') {
-        _param.callback(response);
+        _param.callback(response.data);
       }
     }).catch(function (error) {
       if (typeof _param.errorCallback === 'function') {
@@ -29,6 +29,8 @@ Request.prototype.get = function (param) {
   // 定义get请求
   let _param = param || {};
   _param.method = 'get';
+  _param.params = _param.data || {};
+  _param.data = {};
   this.axios(_param);
 };
 

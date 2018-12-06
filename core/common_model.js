@@ -17,7 +17,7 @@ module.exports = function (param) {
   if (mongoose) {
     _.forEach(param.data, function (item, ) {
       // 根据传过来的类型进行初始化数据库
-      if ([Types.Text, Types.Textarea, Types.Password, Types.Html, Types.Color, Types.Image].indexOf(item.type) !== -1) {
+      if ([Types.Text, Types.Textarea, Types.Password, Types.Html, Types.Color, Types.Image, Types.Radio].indexOf(item.type) !== -1) {
         item.type = mongoose.Schema.Types['String'];
       } else if ([Types.Number, Types.Datetime].indexOf(item.type) !== -1) {
         item.type = mongoose.Schema.Types['Number'];
@@ -29,9 +29,13 @@ module.exports = function (param) {
         item.type = mongoose.Schema.Types['Date'];
       }
     });
-    // 添加更新日期字段
     if (!param.update) {
+      // 添加更新日期字段
       param.update = {type: 'Date', default: Date.now}
+    }
+    if (!param.flag) {
+      // 添加删除标志 1 "正常"、0 "删除", 软删除操作
+      param.flag = {type: 'Number', default: 1}
     }
     _res.schema = new mongoose.Schema(param.data);
     _res.model = mongoose.model(param.name, _res.schema)

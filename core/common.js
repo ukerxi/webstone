@@ -67,9 +67,14 @@ function getSeriesType(res, origin) {
     _data = res.toObject();
   }
   _.forEach(_data, function (item, key) {
-    _res[key] = {
-      data: item,
-      type: (origin[key] && origin[key].type) || 'String'
+    if (['updated', '_id', 'flag'].indexOf(key) === -1) {
+      // 排除一些不必须的数据
+      _res[key] = {
+        data: item,
+        type: (origin.data[key] && origin.data[key].type) || 'String'
+      }
+    } else {
+      _res[key] = item
     }
   });
   return _res;

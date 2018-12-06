@@ -3,14 +3,15 @@
  * */
 module.exports = {
   Text: 'Text',
+  Textarea: 'Textarea',
   Date: 'Date',
   Datetime: 'Datetime',
-  Textarea: 'Textarea',
   Password: 'Password',
   Number: 'Number',
   Html: 'Html',
   Color: 'Color',
   Boolean: 'Boolean',
+  Radio: 'Radio',
   Image: 'Image',
   Images: 'Images'
 };

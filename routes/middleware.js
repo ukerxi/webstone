@@ -19,4 +19,12 @@ module.exports = {
         ];
         next();
     },
+    adminUser: function (req, res, next) {
+      // 后台登录校验
+       if (req.session.user) {
+         next();
+       } else {
+         next();
+       }
+    },
 };

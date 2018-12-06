@@ -14,6 +14,8 @@ const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const middleWare = require('../routes/middleware');
 const exphbs = require('express-handlebars');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 // 实例化
 // 定义webstone 类
@@ -102,6 +104,8 @@ Webstone.prototype.start = function (newApp) {
   let router = self.router;
   // use static file
   const _static = self.get('static_path');
+  // connect db
+  self.connectDb();
   // logger
   if (self.get('logger')) {
     app.use(logger());
@@ -109,10 +113,29 @@ Webstone.prototype.start = function (newApp) {
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(bodyParser.json());
   app.use(methodOverride());
+  // 使用 session
+  let sessionConfig = {
+    secret: 'webstone cat',
+    resave: true,
+    saveUninitialized: false, // 是否保存未初始化的会话
+    cookie: {
+      maxAge: 1000 * 60 * 24 * 5, // 设置 session 的有效时间，单位毫秒
+    }
+  };
+  if (self.db) {
+    sessionConfig.store = new MongoStore({mongooseConnection: self.db.connection})
+  }
+  if (app.get('env') === 'production') {
+    app.set('trust proxy', 1); // trust first proxy
+    sessionConfig.cookie.secure = true // serve secure cookies
+  }
+  app.use(session(sessionConfig));
   // 错误处理
   app.use(require('../routes/views/error'));
   // 加载中间件
   app.use(middleWare.initLocals);
+  // 加载校验后台登录的验证中间件
+  app.use('/admin*', middleWare.adminUser);
   // 静态文件
   if (_static) {
     if (_.isArray(_static)) {
@@ -154,8 +177,6 @@ Webstone.prototype.start = function (newApp) {
     }
   });
   app.use(router);
-  // connect db
-  self.connectDb();
   if (self.get('env') === 'pro') {
     app.listen(self.get('port'), function () {
       // tips start log
