@@ -22,6 +22,10 @@ const globalConfig = {
   mongo_config: {
     is_connect: true, // 是否开启数据库连接
     url: 'mongodb://localhost:27017/webstone' // 数据库的url
+  },
+  user_config: {
+    // 校验用户配置
+    isCheckAdmin: true, // 是否校验后台登录
   }
 };
 // 导出配置

@@ -16,6 +16,14 @@ _.forEach(common.registerRoute('/api', 'controllers'), function(item) {
 _.forEach(common.registerRoute('/', 'home'), function(item) {
     routeList.push(item);
 });
+// admin login page
+_.forEach(common.registerRoute('/admin_login', 'admin_login'), function(item) {
+    routeList.push(item);
+});
+// admin login page
+_.forEach(common.registerRoute('/add_user', 'add_user'), function(item) {
+    routeList.push(item);
+});
 // template page
 _.forEach(common.registerRoute('/post', 'template'), function(item) {
     routeList.push(item);

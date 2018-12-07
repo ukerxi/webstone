@@ -36,6 +36,7 @@ gulp.task('server', function() {
   gulp.watch('models/*', ['restart']);
   gulp.watch('controllers/*', ['restart']);
   gulp.watch('core/*', ['restart']);
+  gulp.watch('templates/views/*', ['restart']);
 });
 
 gulp.task('default', ['server'], function() {

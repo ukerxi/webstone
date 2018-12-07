@@ -21,6 +21,7 @@ module.exports = {
     },
     adminUser: function (req, res, next) {
       // 后台登录校验
+      console.log(req.session.user)
        if (req.session.user) {
          next();
        } else {
