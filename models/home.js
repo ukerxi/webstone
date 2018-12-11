@@ -9,7 +9,7 @@ let _model = initModel({
     name: {type: Types.Text},
     text: {type: Types.Text},
     isShow: {type: Types.Radio, default: '1'},
-    updated: {type: Types.Date, default: Date.now}
+    updateTime: {type: Types.Date, default: Date.now}
   }
 });
 module.exports = _model;

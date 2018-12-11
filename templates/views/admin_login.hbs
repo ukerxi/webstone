@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   {{>header}}
   <style type="text/css">
@@ -29,7 +29,7 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 360px;
+      width: 442px;
       padding: 40px;
       margin-top: -100px;
       margin-left: -200px;
@@ -104,6 +104,25 @@
   $("#btn_login").on("click", function(){
     var accountName = $("#login_account").val();
     var password = $("#login_password").val();
+    if (!accountName || !password) {
+      alert("账号名或密码不能为空！");
+      return ;
+    }
+    $.controlCon.remoteCall({
+      url: "/api/user/login",
+      type: "POST",
+      data: {
+        account: accountName,
+        password: password,
+      }
+    }, function(res) {
+      if (res.code === '0000') {
+        alert('登录成功');
+        setTimeout(function () {
+          window.location.href = '/admin'
+        }, 2000);
+      }
+    });
   });
 
   // 模仿知乎登录页面背景

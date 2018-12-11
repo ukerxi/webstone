@@ -3,7 +3,7 @@
  * */
 const HomeModel = require('../models/home').model;
 const HomeOrigin = require('../models/home').origin;
-const getSeriesType = require('../core/common').getSeriesType;
+const getDbFormatData = require('../core/common').getDbFormatData;
 
 /**
  * @name add 添加数据
@@ -11,16 +11,16 @@ const getSeriesType = require('../core/common').getSeriesType;
 function add (param, callback) {
   const home = new HomeModel({
     name: 'ukerxi',
-    text: '测试数据库eee44',
+    text: '测试数据库eee44555',
     isShow: '1',
-    update: Date.now()
+    updateTime: Date.now()
   });
   home.save(function (err, res) {
     // 执行回调
     if (typeof callback === 'function') {
       callback({
         status: err,
-        data: res
+        data: err ? {} : getDbFormatData(res, HomeOrigin, false)
       });
     }
   })
@@ -33,13 +33,12 @@ function add (param, callback) {
  * @param {boolean} isFormat 是否进行格式化types
  * */
 function getById (id, callback, isFormat) {
-  HomeModel.findById(id, 'name text updated isShow flag', function (err, res) {
+  HomeModel.findById(id, function (err, res) {
     // 执行回调
-    console.log(err)
     if (typeof callback === 'function') {
       callback({
         status: err,
-        data: err ? {} : (isFormat ? getSeriesType(res, HomeOrigin) : res.toObject())
+        data: err ? {} : getDbFormatData(res, HomeOrigin, isFormat)
       });
     }
   })

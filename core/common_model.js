@@ -29,13 +29,17 @@ module.exports = function (param) {
         item.type = mongoose.Schema.Types['Date'];
       }
     });
-    if (!param.update) {
+    if (!param.data.updateTime) {
       // 添加更新日期字段
-      param.update = {type: 'Date', default: Date.now}
+      param.data.updateTime = {type: 'Date', default: Date.now}
     }
-    if (!param.flag) {
+    if (!param.data.createTime) {
+      // 添加创建日期字段
+      param.data.createTime = {type: 'Date', default: Date.now}
+    }
+    if (!param.data.flag) {
       // 添加删除标志 1 "正常"、0 "删除", 软删除操作
-      param.flag = {type: 'Number', default: 1}
+      param.data.flag = {type: 'Number', default: 1}
     }
     _res.schema = new mongoose.Schema(param.data);
     _res.model = mongoose.model(param.name, _res.schema)

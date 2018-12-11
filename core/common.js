@@ -19,12 +19,14 @@ function logTips(str, options) {
  *  @name registerRoute 注册路由
  *  @param {string} path 路由匹配的路径
  *  @param {string} viewName view 的文件名字
+ *  @param {string} directoryName 寻找文件名的routes下文件夹名字
  *  @return {array} 路由数据
  * */
-function registerRoute(path, viewName) {
+function registerRoute(path, viewName, directoryName) {
   // handle routes
   let _list = [];
-  const _handler = require(getPath(viewName, '../routes/views/'));
+  const _directoryName = directoryName || 'views';
+  const _handler = require(getPath(viewName, '../routes/' + _directoryName + '/'));
   if (_.isFunction(_handler)) {
     _list.push({
       path: '/',
@@ -33,7 +35,7 @@ function registerRoute(path, viewName) {
   } else if (_.isArray(_handler)) {
     _.forEach(_handler, function (item) {
       _list.push({
-        path: item.path === '/' ? path : path + item.path,
+        path: item.path === '/' ? (_directoryName === 'views' ? (path + '.html') : path ): path + item.path,
         handler: item.handler,
         method: item.method,
       });
@@ -55,28 +57,80 @@ function getPath(str, relativePath) {
 }
 
 /**
- *  @name getSeriesType 数据类型系列化
+ *  @name getDbFormatData 数据类型系列化
  *  @param {object} res 数据实例
  *  @param {object} origin 初始化的数据配置
+ *  @param {boolean} isFormat 初始化的数据配置
  *  @return {object} 系列化后的数据
  * */
-function getSeriesType(res, origin) {
+function getDbFormatData(res, origin, isFormat) {
   let _res = {};
   let _data = {};
-  if (res) {
-    _data = res.toObject();
+  if (res && res.toObject) {
+    _data = res.toObject({minimize: false, versionKey: false});
+  } else {
+    _data = res || {}
   }
-  _.forEach(_data, function (item, key) {
-    if (['updated', '_id', 'flag'].indexOf(key) === -1) {
-      // 排除一些不必须的数据
-      _res[key] = {
-        data: item,
-        type: (origin.data[key] && origin.data[key].type) || 'String'
+  if (_.isArray(_data)) {
+    _res = [];
+    _.forEach(_data, function (item, key) {
+      let _item = '';
+      if (item && item.toObject) {
+        _item = item.toObject({minimize: false, versionKey: false})
+      } else {
+        _item = item
       }
-    } else {
-      _res[key] = item
+      let _cache = {};
+      if (_.isObject(_item)) {
+        _.forEach(_item, function (subItem, subKey) {
+          const _result = check(subItem, subKey);
+          _cache[_result.key] = _result.data
+        });
+      } else {
+        _cache = item
+      }
+      _res.push(_cache);
+    });
+  } else {
+    _.forEach(_data, function (item, key) {
+      const _result = check(item, key)
+      _res[_result.key] = _result.data
+    });
+  }
+  // 过滤数据
+  function check(item, key) {
+    let result = {
+      key: key,
+      data: item
+    };
+    if (['__v'].indexOf(key) === -1) {
+      // 排除一些数据库字段
+      if (['updateTime', 'createTime', '_id', 'flag'].indexOf(key) === -1) {
+        // 排除一些不必须的数据
+        if (isFormat) {
+          // 格式化返回，类型
+          result.data = {
+            data: item,
+            type: (origin.data[key] && origin.data[key].type) || 'String'
+          }
+        } else {
+          // 正常返回
+          result.data = item
+        }
+      } else {
+        // 返回不需要进行编辑的类型
+        if (key === '_id') {
+          // 转化处理格式 _id
+          result.data = item
+          result.key = 'id'
+        } else {
+          result.data = item
+        }
+      }
     }
-  });
+    return result
+  }
+  // 返回格式化的数据
   return _res;
 }
 
@@ -101,6 +155,6 @@ module.exports = {
   log: logTips,
   registerRoute: registerRoute,
   getPath: getPath,
-  getSeriesType: getSeriesType,
+  getDbFormatData: getDbFormatData,
   getResFormat: getResFormat,
 };

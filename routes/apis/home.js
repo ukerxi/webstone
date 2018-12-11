@@ -15,11 +15,11 @@ routeList.push({
           resData.info = '获取数据失败';
         } else {
           resData.info = '添加成功';
-          resData.data = doc.data._id || {};
+          resData.data = doc.data.id || {};
         }
         res.send(resData);
       });
-    },
+    }
 });
 routeList.push({
     method: 'get',
@@ -37,7 +37,7 @@ routeList.push({
         }
         res.send(resData);
       }, _isFormat);
-    },
+    }
 });
 
 module.exports = routeList;

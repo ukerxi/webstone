@@ -20,12 +20,17 @@ module.exports = {
         next();
     },
     adminUser: function (req, res, next) {
+      const accept = req.header('Accept');
       // 后台登录校验
-      console.log(req.session.user)
-       if (req.session.user) {
-         next();
-       } else {
-         next();
-       }
+      if (accept.indexOf('text/html') !== -1) {
+        // 对于后天页面进行用户权限过滤
+        if (req.session.user) {
+          next();
+        } else {
+          res.redirect(301, '/login_admin.html')
+        }
+      } else {
+        next();
+      }
     },
 };
