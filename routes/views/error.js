@@ -1,5 +1,5 @@
 /**
- *  @name route-views-home
+ *  @name route-views-error
  * */
 
 module.exports = function(err, req, res, next) {

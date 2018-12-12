@@ -157,7 +157,9 @@ Webstone.prototype.start = function (newApp) {
     app.use(express.static(path.join(__dirname, '../', 'admin/dist')));
   }
   // 初始化引擎，默认使用 bandlebars
-  app.enable('view cache'); // 禁用view渲染缓存
+  if (self.get('env') === 'dev') {
+    app.enable('view cache'); // 禁用view渲染缓存
+  }
   const hbs = exphbs.create({
     defaultLayout: 'default',
     extname: self.get('engine_config').extname,
