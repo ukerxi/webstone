@@ -43,6 +43,8 @@ module.exports = function (param) {
     }
     _res.schema = new mongoose.Schema(param.data);
     _res.model = mongoose.model(param.name, _res.schema)
+  } else {
+    console.log('error：mongod 数据库未开启！')
   }
   return _res
 };

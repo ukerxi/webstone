@@ -16,7 +16,6 @@ glob.sync(path.resolve(__dirname, './apis/') + '/*.js').forEach(function (item) 
     routeList.push(item);
   });
 });
-
 // home page
 _.forEach(common.registerRoute('/', 'home', 'views'), function(item) {
     routeList.push(item);
@@ -25,11 +24,6 @@ _.forEach(common.registerRoute('/', 'home', 'views'), function(item) {
 _.forEach(common.registerRoute('/login_admin', 'login_admin', 'views'), function(item) {
     routeList.push(item);
 });
-// admin add_user
-_.forEach(common.registerRoute('/add_user', 'add_user', 'views'), function(item) {
-    routeList.push(item);
-});
-
 
 // 导出模块
 module.exports = {

@@ -72,7 +72,8 @@ routeList.push({
             }
           });
           if (_user) {
-            res.session.user = _user.account;
+            req.session.user_name = _user.account;
+            req.session.user_id = _user.id;
             resData.info = '登录成功';
           } else {
             resData.info = '密码错误';
@@ -81,6 +82,33 @@ routeList.push({
         res.send(resData);
       });
     }
+  }
+});
+
+/**
+ * @name logout 登出
+ * @param account 账号
+ * */
+routeList.push({
+  method: 'post',
+  path: '/user/logout',
+  handler: function (req, res, next) {
+    const resData = getResFormat();
+    const params = req.body || {};
+    // 检验数据
+    if (!params.account) {
+      resData.code = '1001';
+      resData.info = '登出失败';
+    } else if (params.account !== req.session.user_name) {
+      resData.code = '1001';
+      resData.info = '登出账户与当前账户不一致';
+    } else {
+      req.session.user_name = '';
+      req.session.user_id = '';
+      resData.code = '0000';
+      resData.info = '登出成功';
+    }
+    res.send(resData);
   }
 });
 
@@ -126,7 +154,7 @@ routeList.push({
       _options.password = _params.password || ''
     }
     if (!_options.password) {
-     // 检验数据
+      // 检验数据
       resData.code = '1001';
       resData.info = '密码为空';
       res.send(resData);

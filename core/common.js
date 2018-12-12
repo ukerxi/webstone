@@ -35,7 +35,7 @@ function registerRoute(path, viewName, directoryName) {
   } else if (_.isArray(_handler)) {
     _.forEach(_handler, function (item) {
       _list.push({
-        path: item.path === '/' ? (_directoryName === 'views' ? (path + '.html') : path ): path + item.path,
+        path: item.path === '/' ? ((_directoryName === 'views' && path !== '/') ? (path + '.html') : path ): path + item.path,
         handler: item.handler,
         method: item.method,
       });

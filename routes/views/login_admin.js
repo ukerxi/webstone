@@ -7,12 +7,12 @@ routeList.push({
     method: 'get',
     path: '/',
     handler: function (req, res, next) {
-        res.locals.section = 'home';
+        res.locals.section = 'login_admin';
         res.locals.data = {
-           text: req.session.user || 'reee'
+           text: 'test'
         };
         const view = new View(req, res, next);
-        view.render('admin_login');
+        view.render('login_admin');
     },
 });
 
