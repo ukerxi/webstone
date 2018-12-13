@@ -29,3 +29,23 @@ export function extendObject(source, deep) {
   // 返回新对象
   return target
 }
+
+/**
+ * @name getViewData 获取组件中数据，用于保存
+ * @param source [object] 需要进行还原数据的对象
+ */
+export function getViewData(source) {
+  let _data = {};
+  let hasOwnPrototype = Object.prototype.hasOwnProperty;
+  for (let key in source) {
+    if (hasOwnPrototype.call(source, key)) {
+      if (source[key]) {
+        _data[key] = source[key].data
+      } else {
+        _data[key] = '';
+      }
+    }
+  }
+  // 返回新对象
+  return _data
+}

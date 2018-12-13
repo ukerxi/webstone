@@ -9,6 +9,7 @@ let _model = initModel({
     name: {type: Types.Text},
     text: {type: Types.Text},
     isShow: {type: Types.Radio, default: '1'},
+    images: {type: Types.Images, default: []},
     updateTime: {type: Types.Date, default: Date.now}
   }
 });

@@ -27,6 +27,7 @@ module.exports = {
         "valid-jsdoc": "off",
         "new-cap": "off",
         "comma-dangle": "off",
+        "prefer-rest-params": "off",
         "semi": "off"
     }
 };

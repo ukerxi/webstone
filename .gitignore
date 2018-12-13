@@ -10,15 +10,12 @@ node_modules
 # Ignore .DS_Store files on OS X
 .DS_Store
 
-# webstome config
-.idea/
-
 .DS_Store
 node_modules/
 /dist/
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+upload_files/files/
+upload_files/images/
 
 # Editor directories and files
 .idea
@@ -27,4 +24,5 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+
 

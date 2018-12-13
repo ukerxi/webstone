@@ -3,12 +3,14 @@
     <template v-for="(item, key) in view_data">
       <ws-view v-if="item.type" :key="key" :view-data="item" :view-control="setControl(key, item.type)"></ws-view>
     </template>
+    <el-button type="primary" @click="saveData">添加数据</el-button>
   </div>
 </template>
 
 <script>
   import TypeView from '../components/TypeView.vue'
   import request from '../assets/js/request.js'
+  import {getViewData} from '../assets/js/utils.js'
   export default {
     name: 'Index',
     components: {
@@ -23,10 +25,11 @@
       this.getList()
     },
     methods: {
-      getList () {
-        var _self = this
+      getList() {
+        var _self = this;
         request.get({
-          url: '/api/home/getById',
+          // url: '/api/home/getById',
+          url: '/api/home/getDataKey',
           data: {
             isFormat: '1',
             id: '5c08d0526a88381620ffbcc9'
@@ -35,6 +38,17 @@
             if (res.code === '0000') {
               _self.view_data = res.data || {}
             }
+          }
+        })
+      },
+      saveData() {
+        var _self = this;
+        var _params = getViewData(_self.view_data || {});
+        request.post({
+          url: '/api/home/add',
+          data: _params,
+          callback: function (res) {
+            console.log(res)
           }
         })
       },

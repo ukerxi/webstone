@@ -44,8 +44,24 @@ function getById (id, callback, isFormat) {
   })
 }
 
+/**
+ * @name getDataKey 获取默认空数据key
+ *  * @param {function} callback 回调
+ * @param {boolean} isFormat 是否进行格式化types
+ * */
+function getDataKey (callback, isFormat) {
+  // 执行回调
+  if (typeof callback === 'function') {
+    callback({
+      status: '',
+      data: getDbFormatData(HomeOrigin.data, HomeOrigin, isFormat, true)
+    });
+  }
+}
+
 // export
 module.exports = {
   add: add,
   getById: getById,
+  getDataKey: getDataKey,
 };

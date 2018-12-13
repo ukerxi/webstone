@@ -12,6 +12,9 @@
     <template v-if="view_data.type === 'Date'">
       <ws-date :view-data="view_data.data" :view-control="view_control" @update="handleUpdate"></ws-date>
     </template>
+    <template v-if="view_data.type === 'Images'">
+      <ws-images :view-data="view_data.data" :view-control="view_control" @update="handleUpdate"></ws-images>
+    </template>
   </div>
 </template>
 
@@ -20,6 +23,7 @@ import Text from './Text.vue'
 import Textarea from './Textarea.vue'
 import Radio from './Radio.vue'
 import Date from './Date.vue'
+import Images from './Images.vue'
 import {extendObject} from '../assets/js/utils'
 export default {
   name: 'TypeView',
@@ -28,6 +32,7 @@ export default {
     wsTextarea: Textarea,
     wsRadio: Radio,
     wsDate: Date,
+    wsImages: Images,
   },
   props:['viewData', 'viewControl'], // 'viewData’ 需要的数据 ‘setControl’配置view数据
   data () {

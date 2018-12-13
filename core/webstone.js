@@ -7,6 +7,7 @@
 const _ = require('lodash');
 const express = require('express');
 const viewRoutes = require('../routes/index');
+const uploadFiles = require('../routes/upload');
 const commonUtils = require('./common');
 const path = require('path');
 const logger = require('morgan');
@@ -123,7 +124,7 @@ Webstone.prototype.start = function (newApp) {
     resave: true,
     saveUninitialized: false, // 是否保存未初始化的会话
     cookie: {
-      maxAge: 1000 * 60 * 24 * 5, // 设置 session 的有效时间，单位毫秒
+      maxAge: 1000 * 60 * 60 * 24 * 5, // 设置 session 的有效时间，单位毫秒
     }
   };
   if (self.db) {
@@ -135,7 +136,7 @@ Webstone.prototype.start = function (newApp) {
   }
   app.use(session(sessionConfig));
   // 错误处理
-  app.use(require('../routes/views/error'));
+  app.use(require('../routes/error'));
   // 加载中间件
   app.use(middleWare.initLocals);
   // 加载校验后台登录的验证中间件
@@ -152,6 +153,8 @@ Webstone.prototype.start = function (newApp) {
       app.use(express.static(path.join(__dirname, '../', _static)));
     }
   }
+  // 上传文件夹的静态文件
+  app.use(express.static(path.join(__dirname, '../', 'upload_files')));
   // 后台管理的资源文件
   if (self.get('env') === 'pro') {
     app.use(express.static(path.join(__dirname, '../', 'admin/dist')));
@@ -185,6 +188,8 @@ Webstone.prototype.start = function (newApp) {
     }
   });
   app.use(router);
+  // upload router 文件上传处理
+  uploadFiles(app);
   if (self.get('env') === 'pro') {
     app.listen(self.get('port'), function () {
       // tips start log

@@ -14,13 +14,13 @@ module.exports = {
   adminUser: function (req, res, next) {
     const accept = req.header('Accept');
     // 后台登录校验
-    if (accept.indexOf('text/html') !== -1) {
+    if (accept && accept.indexOf('text/html') !== -1) {
       // 对于后天页面进行用户权限过滤
       if (req.session.user_name) {
         next();
       } else {
         // 重定向登录页面
-        res.redirect(301, '/login_admin.html')
+        res.redirect(302, '/login_admin.html')
       }
     } else {
       next();

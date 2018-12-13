@@ -61,9 +61,14 @@ function getPath(str, relativePath) {
  *  @param {object} res 数据实例
  *  @param {object} origin 初始化的数据配置
  *  @param {boolean} isFormat 初始化的数据配置
+ *  @param {boolean} isDefault 是否是获取默认数据
  *  @return {object} 系列化后的数据
  * */
 function getDbFormatData(res, origin, isFormat) {
+  let isDefault = false; // 是否是获取默认数据
+  if (arguments.length > 3) {
+    isDefault = arguments[3] || false
+  }
   let _res = {};
   let _data = {};
   if (res && res.toObject) {
@@ -110,21 +115,21 @@ function getDbFormatData(res, origin, isFormat) {
         if (isFormat) {
           // 格式化返回，类型
           result.data = {
-            data: item,
+            data: isDefault ? (item.default || '' ) : item,
             type: (origin.data[key] && origin.data[key].type) || 'String'
           }
         } else {
           // 正常返回
-          result.data = item
+          result.data = isDefault ? (item.default || '' ) : item
         }
       } else {
         // 返回不需要进行编辑的类型
         if (key === '_id') {
           // 转化处理格式 _id
-          result.data = item
+          result.data = isDefault ? (item.default || '' ) : item
           result.key = 'id'
         } else {
-          result.data = item
+          result.data = isDefault ? (item.default || '' ) : item
         }
       }
     }
