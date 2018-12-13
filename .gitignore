@@ -14,8 +14,6 @@ node_modules
 node_modules/
 /dist/
 npm-debug.log*
-upload_files/files/
-upload_files/images/
 
 # Editor directories and files
 .idea
