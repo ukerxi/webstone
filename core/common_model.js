@@ -9,9 +9,9 @@ const Types = require('./model_types');
 module.exports = function (param) {
   let _res = {
     name: '',
-    schema: '',
-    model: '',
-    origin: '' // 原始初始化数据
+    schema: {},
+    model: {},
+    origin: {} // 原始初始化数据
   };
   _res.origin = _.merge({}, param);
   if (mongoose) {
@@ -21,14 +21,18 @@ module.exports = function (param) {
         item.type = mongoose.Schema.Types['String'];
       } else if ([Types.Number, Types.Datetime].indexOf(item.type) !== -1) {
         item.type = mongoose.Schema.Types['Number'];
-      } else if ([Types.Images].indexOf(item.type) !== -1) {
-        item.type = mongoose.Schema.Types['Array'];
+      } else if ([Types.Images, Types.Files, Types.Image, Types.File].indexOf(item.type) !== -1) {
+        item.type = mongoose.Schema.Types['Mixed'];
       } else if ([Types.Boolean].indexOf(item.type) !== -1) {
         item.type = mongoose.Schema.Types['Boolean'];
-      } else if ([Types.Date].indexOf(item.type) !== -1) {
+      } else if ([Types.Date, Types.DateTime].indexOf(item.type) !== -1) {
         item.type = mongoose.Schema.Types['Date'];
       }
     });
+    if (!param.data.index) {
+      // 添加index 字段
+      param.data.index = {type: 'String', index: true, unique: true}
+    }
     if (!param.data.updateTime) {
       // 添加更新日期字段
       param.data.updateTime = {type: 'Date', default: Date.now}

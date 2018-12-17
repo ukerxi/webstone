@@ -84,6 +84,45 @@ function update (id, callback, options, isFormat) {
   })
 }
 
+/**
+ * @name initUser 初始化用户（用户数据库中为空，添加默认用户账户 webstone / 123456）
+ * */
+function counts (options, callback) {
+  UserModel.estimatedDocumentCount(options || {}, function (err, res) {
+    // 执行回调
+    if (typeof callback === 'function') {
+      callback({
+        status: err,
+        data: res || 0
+      });
+    }
+  })
+}
+
+/**
+ * @name initUser 初始化用户（用户数据库中为空，添加默认用户账户 webstone / 123456）
+ * */
+function initUser() {
+  const _account = 'webstone';
+  const _password = '123456';
+  counts({}, function (res) {
+    if (res.data === 0) {
+      // 添加用户
+      add({
+        account: _account,
+        password: _password,
+        phone: '',
+        remark: '默认用户',
+        type: '',
+      }, function () {
+        // console.log('添加用户成功！')
+        // do something
+      });
+    }
+  });
+}
+// 执行初始化函数
+initUser();
 // export
 module.exports = {
   add: add,

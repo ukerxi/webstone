@@ -3,7 +3,7 @@
     <span class="item-title">{{view_control.title}}：</span>
     <div class="item-content">
       <el-upload
-        name="image"
+        name="file"
         class="item-upload"
         :action="action"
         :on-success="handleSuccess"
@@ -11,13 +11,10 @@
         :on-remove="handleRemove"
         :before-remove="beforeRemove"
         :multiple = "true"
-        accept = "image/jpg, image/png, image/jpeg"
         :limit="view_control.limit"
         :on-exceed="handleExceed"
-        list-type="picture"
         :file-list="fileList">
         <el-button size="small" type="primary">点击上传</el-button>
-        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
       </el-upload>
     </div>
   </div>
@@ -30,10 +27,10 @@
     data() {
       return {
         fileList: [{name: '', url: ''}],
-        action: '/upload/images',
+        action: '/upload/files',
         view_control:{
           // 默认配置参数，可通过 view_control 属性传进来
-          title: '上传图片列表',
+          title: '上传文件列表',
           limit: 3,
           dataType: 'list' // 控制返回数据的类型，object 针对单个文件， list 针对列表文件
         }
@@ -74,17 +71,17 @@
     },
     methods: {
       triggerData(data) {
-        var _self = this
+        var _self = this;
         _self.$emit('update', data)
       },
       handleSuccess(response, file, fileList) {
-        var _self = this
+        var _self = this;
         _self.fileList = [];
         if (response.code === '0000') {
           if (fileList && fileList.length >0) {
             for(var i = 0; i < fileList.length; i++) {
-              if (fileList[i].response && fileList[i].response.data.image) {
-                _self.fileList.push(fileList[i].response.data.image);
+              if (fileList[i].response && fileList[i].response.data.file) {
+                _self.fileList.push(fileList[i].response.data.file);
               } else {
                 _self.fileList.push(fileList[i]);
               }
@@ -99,7 +96,7 @@
         console.log(file);
       },
       handleExceed(files, fileList) {
-        this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+        this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${Files.length} 个文件，共选择了 ${Files.length + fileList.length} 个文件`);
       },
       beforeRemove(file, fileList) {
         return this.$confirm(`确定移除 ${ file.name }？`);

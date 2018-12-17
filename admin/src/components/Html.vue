@@ -20,7 +20,7 @@
   import 'quill/dist/quill.bubble.css'
   import { quillEditor, Quill } from 'vue-quill-editor'
   import {container, ImageExtend, QuillWatch} from 'quill-image-extend-module'
-  import { ImageResize } from 'quill-image-resize-module'
+  import ImageResize from 'quill-image-resize-module'
   Quill.register('modules/ImageExtend', ImageExtend);
   Quill.register('modules/ImageResize', ImageResize);
   export default {
@@ -31,9 +31,10 @@
     },
     data() {
       return {
-        content: '<h2>I am Example</h2>',
+        content: '',
         editorOption: {
           modules: {
+            ImageResize: {},
             ImageExtend: {
               loading: true,
               name: 'image',
@@ -54,8 +55,7 @@
         },
         view_control:{
           // 默认配置参数，可通过 view_control 属性传进来
-          title: '内容',
-          limit: 3
+          title: '内容'
         }
       }
     },
@@ -72,11 +72,8 @@
     },
     created() {
       var _self = this;
+      _self.content = _self.viewData || ''
       // 赋初值
-      // _self.fileList = _self.viewData || ''
-      if (_self.viewControl && _self.viewControl.rows) {
-        _self.view_control.rows = _self.viewControl.rows
-      }
       if (_self.viewControl && _self.viewControl.title) {
         _self.view_control.title = _self.viewControl.title
       }
@@ -121,9 +118,6 @@
       position: relative;
       display: block;
       overflow: hidden;
-    }
-    .ql-container {
-      min-height: 100px;
     }
   }
 </style>

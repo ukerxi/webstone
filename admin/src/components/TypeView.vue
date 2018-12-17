@@ -12,8 +12,14 @@
     <template v-if="view_data.type === 'Date'">
       <ws-date :view-data="view_data.data" :view-control="view_control" @update="handleUpdate"></ws-date>
     </template>
-    <template v-if="view_data.type === 'Images'">
+    <template v-if="view_data.type === 'DateTime'">
+      <ws-date-time :view-data="view_data.data" :view-control="view_control" @update="handleUpdate"></ws-date-time>
+    </template>
+    <template v-if="view_data.type === 'Images' || view_data.type === 'Image'">
       <ws-images :view-data="view_data.data" :view-control="view_control" @update="handleUpdate"></ws-images>
+    </template>
+    <template v-if="view_data.type === 'Files' || view_data.type === 'File'">
+      <ws-files :view-data="view_data.data" :view-control="view_control" @update="handleUpdate"></ws-files>
     </template>
     <template v-if="view_data.type === 'Html'">
       <ws-html :view-data="view_data.data" :view-control="view_control" @update="handleUpdate"></ws-html>
@@ -26,7 +32,9 @@ import Text from './Text.vue'
 import Textarea from './Textarea.vue'
 import Radio from './Radio.vue'
 import Date from './Date.vue'
+import DateTime from './DateTime.vue'
 import Images from './Images.vue'
+import Files from './Files.vue'
 import Html from './Html.vue'
 import {extendObject} from '../assets/js/utils'
 export default {
@@ -36,7 +44,9 @@ export default {
     wsTextarea: Textarea,
     wsRadio: Radio,
     wsDate: Date,
+    wsDateTime: DateTime,
     wsImages: Images,
+    wsFiles: Files,
     wsHtml: Html,
   },
   props:['viewData', 'viewControl'], // 'viewData’ 需要的数据 ‘setControl’配置view数据
@@ -51,6 +61,14 @@ export default {
     // 复制父组件的数据
     _self.view_data = extendObject(_self.viewData, true)
     _self.view_control = extendObject(_self.viewControl, true)
+    // 扩展类型，根据已有的类型扩展相同类型
+    if (_self.view_data.type === 'Image') {
+      _self.view_control.limit = 1;
+      _self.view_control.dataType = 'object';
+    } else if (_self.view_data.type === 'File') {
+      _self.view_control.limit = 1;
+      _self.view_control.dataType = 'object';
+    }
   },
   methods: {
     handleUpdate (data) {

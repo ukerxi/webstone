@@ -9,7 +9,6 @@ const getDbFormatData = require('../core/common').getDbFormatData;
  * @name add 添加数据
  * */
 function add (param, callback) {
-  param.images = ['ree'];
   const home = new HomeModel(param);
   home.save(function (err, res) {
     // 执行回调

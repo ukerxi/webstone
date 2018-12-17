@@ -44,7 +44,7 @@ module.exports = function (app) {
         _.each(req.files['image'], function (item) {
           resData.data['image'] = {
             name: item.filename,
-            url: '/' + item.path,
+            url: ('/' + item.path).replace(/\\/g, '/'),
             fieldname: item.fieldname,
             originalname: item.originalname,
             encoding: item.encoding,
@@ -58,7 +58,7 @@ module.exports = function (app) {
         _.each(req.files['images'], function (item) {
           resData.data['images'].push({
             name: item.filename,
-            url: '/' + item.path,
+            url: ('/' + item.path).replace(/\\/g, '/'),
             fieldname: item.fieldname,
             originalname: item.originalname,
             encoding: item.encoding,
@@ -78,11 +78,11 @@ module.exports = function (app) {
   app.post('/upload/files', uploadFiles.fields([{name: 'file', maxCount: 1}, {name: 'files', maxCount: 3}]), function (req, res, next) {
     const resData = getResFormat();
     if (req.files) {
-      if (req.files['file'].length > 0) {
+      if (req.files['file'] && req.files['file'].length > 0) {
         _.each(req.files['file'], function (item) {
           resData.data['file'] = {
             name: item.filename,
-            url: '/' + item.path,
+            url: ('/' + item.path).replace(/\\/g, '/'),
             fieldname: item.fieldname,
             originalname: item.originalname,
             encoding: item.encoding,
@@ -91,12 +91,12 @@ module.exports = function (app) {
           }
         });
       }
-      if (req.files['files'].length > 0) {
+      if (req.files['files'] && req.files['files'].length > 0) {
         resData.data['files'] = [];
         _.each(req.files['files'], function (item) {
           resData.data['files'].push({
             name: item.filename,
-            url: '/' + item.path,
+            url: ('/' + item.path).replace(/\\/g, '/'),
             fieldname: item.fieldname,
             originalname: item.originalname,
             encoding: item.encoding,

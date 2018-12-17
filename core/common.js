@@ -102,8 +102,8 @@ function getDbFormatData(res, origin, isFormat) {
       _res[_result.key] = _result.data
     });
   }
-  // 过滤数据
   function check(item, key) {
+    // 过滤数据
     let result = {
       key: key,
       data: item
@@ -115,26 +115,39 @@ function getDbFormatData(res, origin, isFormat) {
         if (isFormat) {
           // 格式化返回，类型
           result.data = {
-            data: isDefault ? (item.default || '' ) : item,
+            data: isDefault ? getDefault(item.default || '' ) : item,
             type: (origin.data[key] && origin.data[key].type) || 'String'
           }
         } else {
           // 正常返回
-          result.data = isDefault ? (item.default || '' ) : item
+          result.data = isDefault ? getDefault(item.default || '' ) : item
         }
       } else {
         // 返回不需要进行编辑的类型
         if (key === '_id') {
           // 转化处理格式 _id
-          result.data = isDefault ? (item.default || '' ) : item
+          result.data = isDefault ? getDefault(item.default || '' ) : item
           result.key = 'id'
         } else {
-          result.data = isDefault ? (item.default || '' ) : item
+          result.data = isDefault ? getDefault(item.default || '' ) : item
         }
       }
     }
     return result
   }
+  function getDefault(item) {
+    // 获取默认值
+    let _res = '';
+    if (item) {
+      if (typeof item === 'function') {
+        _res = item();
+      } else {
+        _res = item;
+      }
+    }
+    return _res
+  }
+
   // 返回格式化的数据
   return _res;
 }

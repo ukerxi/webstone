@@ -37,7 +37,6 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules(?!\/quill-image-drop-module|quill-image-resize-module)/,
         include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
       },
       {
@@ -68,7 +67,8 @@ module.exports = {
   },
   plugins: [
     new webpack.ProvidePlugin({
-      'window.Quill': 'quill'
+      'window.Quill': 'quill/dist/quill.js',
+      'Quill': 'quill/dist/quill.js'
     })
   ],
   node: {
