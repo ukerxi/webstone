@@ -12,9 +12,8 @@ routeList.push({
     path: '/home/add',
     handler: function(req, res, next) {
       const resData = getResFormat();
-      console.log('params', req.params);
-      console.log('body', req.body);
-      home.add(req.params, function (doc) {
+      const params = req.body || {};
+      home.add(params, function (doc) {
         if (doc.status) {
           resData.code = '1001';
           resData.info = '获取数据失败';

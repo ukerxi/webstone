@@ -43,12 +43,12 @@ module.exports = function (app) {
       if (req.files['image'] && req.files['image'].length > 0) {
         _.each(req.files['image'], function (item) {
           resData.data['image'] = {
-            filename: item.filename,
+            name: item.filename,
+            url: '/' + item.path,
             fieldname: item.fieldname,
             originalname: item.originalname,
             encoding: item.encoding,
             size: item.size,
-            path: item.path,
             destination: item.destination,
           }
         });
@@ -57,12 +57,12 @@ module.exports = function (app) {
         resData.data['images'] = [];
         _.each(req.files['images'], function (item) {
           resData.data['images'].push({
-            filename: item.filename,
+            name: item.filename,
+            url: '/' + item.path,
             fieldname: item.fieldname,
             originalname: item.originalname,
             encoding: item.encoding,
             size: item.size,
-            path: item.path,
             destination: item.destination,
           });
         })
@@ -81,12 +81,12 @@ module.exports = function (app) {
       if (req.files['file'].length > 0) {
         _.each(req.files['file'], function (item) {
           resData.data['file'] = {
-            filename: item.filename,
+            name: item.filename,
+            url: '/' + item.path,
             fieldname: item.fieldname,
             originalname: item.originalname,
             encoding: item.encoding,
             size: item.size,
-            path: item.path,
             destination: item.destination,
           }
         });
@@ -95,12 +95,12 @@ module.exports = function (app) {
         resData.data['files'] = [];
         _.each(req.files['files'], function (item) {
           resData.data['files'].push({
-            filename: item.filename,
+            name: item.filename,
+            url: '/' + item.path,
             fieldname: item.fieldname,
             originalname: item.originalname,
             encoding: item.encoding,
             size: item.size,
-            path: item.path,
             destination: item.destination,
           });
         })

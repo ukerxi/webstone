@@ -9,12 +9,8 @@ const getDbFormatData = require('../core/common').getDbFormatData;
  * @name add 添加数据
  * */
 function add (param, callback) {
-  const home = new HomeModel({
-    name: 'ukerxi',
-    text: '测试数据库eee44555',
-    isShow: '1',
-    updateTime: Date.now()
-  });
+  param.images = ['ree'];
+  const home = new HomeModel(param);
   home.save(function (err, res) {
     // 执行回调
     if (typeof callback === 'function') {

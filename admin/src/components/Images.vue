@@ -3,13 +3,14 @@
     <span class="item-title">{{view_control.title}}：</span>
     <div class="item-content">
       <el-upload
-        name="images"
+        name="image"
         class="item-upload"
         :action="action"
+        :on-success="handleSuccess"
         :on-preview="handlePreview"
         :on-remove="handleRemove"
         :before-remove="beforeRemove"
-        multiple
+        :multiple = "true"
         :limit="view_control.limit"
         :on-exceed="handleExceed"
         list-type="picture"
@@ -27,7 +28,7 @@
     props: ['viewData', 'viewControl'],
     data() {
       return {
-        fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
+        fileList: [{name: '', url: ''}],
         action: '/upload/images',
         view_control:{
           // 默认配置参数，可通过 view_control 属性传进来
@@ -46,8 +47,8 @@
       var _self = this
       // 赋初值
       _self.fileList = _self.viewData || ''
-      if (_self.viewControl && _self.viewControl.rows) {
-        _self.view_control.rows = _self.viewControl.rows
+      if (_self.viewControl && _self.viewControl.limit) {
+        _self.view_control.rows = _self.viewControl.limit
       }
       if (_self.viewControl && _self.viewControl.title) {
         _self.view_control.title = _self.viewControl.title
@@ -57,6 +58,21 @@
       triggerData(data) {
         var _self = this
         _self.$emit('update', data)
+      },
+      handleSuccess(response, file, fileList) {
+        var _self = this
+        _self.fileList = [];
+        if (response.code === '0000') {
+          if (fileList && fileList.length >0) {
+            for(var i = 0; i < fileList.length; i++) {
+              if (fileList[i].response && fileList[i].response.data.image) {
+                _self.fileList.push(fileList[i].response.data.image);
+              } else {
+                _self.fileList.push(fileList[i]);
+              }
+            }
+          }
+        }
       },
       handleRemove(file, fileList) {
         console.log(file, fileList);
@@ -86,7 +102,8 @@
     .item-title {
       position: relative;
       display: inline-block;
-      vertical-align: middle;
+      vertical-align: top;
+      line-height: 32px;
     }
     .item-content {
       position: relative;

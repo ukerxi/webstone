@@ -32,7 +32,7 @@
           url: '/api/home/getDataKey',
           data: {
             isFormat: '1',
-            id: '5c08d0526a88381620ffbcc9'
+            id: '5c13270c970fe62064048a42'
           },
           callback: function (res) {
             if (res.code === '0000') {
@@ -63,7 +63,7 @@
               text: '发布'
             }, {
               val: '0',
-              text: '布发布'
+              text: '不发布'
             }, {
               val: '-1',
               text: '待发布'

@@ -154,7 +154,7 @@ Webstone.prototype.start = function (newApp) {
     }
   }
   // 上传文件夹的静态文件
-  app.use(express.static(path.join(__dirname, '../', 'upload_files')));
+  app.use('/upload_files', express.static(path.join(__dirname, '../', 'upload_files')));
   // 后台管理的资源文件
   if (self.get('env') === 'pro') {
     app.use(express.static(path.join(__dirname, '../', 'admin/dist')));
