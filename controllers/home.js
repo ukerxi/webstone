@@ -129,7 +129,8 @@ function initHome() {
         showTime: '',
         banners: [],
         backgroundColor: '',
-        remark: ''
+        remark: '',
+        operator: '',
       }, function () {
         // console.log('添加用户成功！')
         // do something

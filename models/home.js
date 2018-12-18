@@ -13,6 +13,7 @@ let _model = initModel({
     banners: {type: Types.Images, default: [], label: 'banners'},
     backgroundColor: {type: Types.ColorPicker, default: '', label: '背景颜色控制'},
     remark: {type: Types.Text, default: '1', label: '备注'},
+    operator: {type: Types.Text, default: '', label: '操作者'},
   }
 });
 module.exports = _model;

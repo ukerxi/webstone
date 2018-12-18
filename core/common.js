@@ -110,7 +110,7 @@ function getDbFormatData(res, origin, isFormat) {
     };
     if (['__v'].indexOf(key) === -1) {
       // 排除一些数据库字段
-      if (['updateTime', 'createTime', '_id', 'flag'].indexOf(key) === -1) {
+      if (['updateTime', 'createTime', '_id', 'flag', 'operator'].indexOf(key) === -1) {
         // 排除一些不必须的数据
         if (isFormat) {
           // 格式化返回，类型
