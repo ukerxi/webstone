@@ -24,6 +24,9 @@
     <template v-if="view_data.type === 'Html'">
       <ws-html :view-data="view_data.data" :view-control="view_control" @update="handleUpdate"></ws-html>
     </template>
+    <template v-if="view_data.type === 'ColorPicker'">
+      <ws-color-picker :view-data="view_data.data" :view-control="view_control" @update="handleUpdate"></ws-color-picker>
+    </template>
   </div>
 </template>
 
@@ -36,6 +39,7 @@ import DateTime from './DateTime.vue'
 import Images from './Images.vue'
 import Files from './Files.vue'
 import Html from './Html.vue'
+import ColorPicker from './ColorPicker.vue'
 import {extendObject} from '../assets/js/utils'
 export default {
   name: 'TypeView',
@@ -48,6 +52,7 @@ export default {
     wsImages: Images,
     wsFiles: Files,
     wsHtml: Html,
+    wsColorPicker: ColorPicker,
   },
   props:['viewData', 'viewControl'], // 'viewData’ 需要的数据 ‘setControl’配置view数据
   data () {
@@ -57,10 +62,11 @@ export default {
     }
   },
   created () {
-    var _self = this
+    var _self = this;
     // 复制父组件的数据
-    _self.view_data = extendObject(_self.viewData, true)
-    _self.view_control = extendObject(_self.viewControl, true)
+    _self.view_data = extendObject(_self.viewData, true);
+    _self.view_control = extendObject(_self.viewControl, true);
+    _self.view_control.title = _self.view_data.label || '标题';
     // 扩展类型，根据已有的类型扩展相同类型
     if (_self.view_data.type === 'Image') {
       _self.view_control.limit = 1;
@@ -72,9 +78,9 @@ export default {
   },
   methods: {
     handleUpdate (data) {
-      var _self = this
+      var _self = this;
       // 更新数据
-      _self.view_data.data = data
+      _self.view_data.data = data;
       _self.viewData.data = data
     }
   }

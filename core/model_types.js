@@ -4,15 +4,14 @@
 module.exports = {
   Text: 'Text',
   Textarea: 'Textarea',
-  Password: 'Password', // 暂无，可以使用 Text 类型进行设置
   Number: 'Number', // 暂无，可以使用 Text 类型进行设置
   Date: 'Date',
   DateTime: 'DateTime',
   Html: 'Html',
-  Color: 'Color',
+  ColorPicker: 'ColorPicker',
   Radio: 'Radio',
-  Image: 'Image', // 暂无
+  Image: 'Image',
   Images: 'Images',
-  File: 'File', // 暂无
+  File: 'File',
   Files: 'Files',
 };

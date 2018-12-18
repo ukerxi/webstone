@@ -1,8 +1,26 @@
 <template>
   <div class="view-page-index">
-    <template v-for="(item, key) in view_data">
-      <ws-view v-if="item.type" :key="key" :view-data="item" :view-control="setControl(key, item.type)"></ws-view>
-    </template>
+    <div class="wrap-view-item" v-if="view_data.title">
+      <ws-view :view-data="view_data.title" :view-control="setControl('title')"></ws-view>
+    </div>
+    <div class="wrap-view-item" v-if="view_data.notice">
+      <ws-view :view-data="view_data.notice" :view-control="setControl('notice')"></ws-view>
+    </div>
+    <div class="wrap-view-item" v-if="view_data.isShow">
+      <ws-view :view-data="view_data.isShow" :view-control="setControl('isShow')"></ws-view>
+    </div>
+    <div class="wrap-view-item" v-if="view_data.showTime">
+      <ws-view :view-data="view_data.showTime" :view-control="setControl('showTime')"></ws-view>
+    </div>
+    <div class="wrap-view-item" v-if="view_data.banners">
+      <ws-view :view-data="view_data.banners" :view-control="setControl('banners')"></ws-view>
+    </div>
+    <div class="wrap-view-item" v-if="view_data.backgroundColor">
+      <ws-view :view-data="view_data.backgroundColor" :view-control="setControl('backgroundColor')"></ws-view>
+    </div>
+    <div class="wrap-view-item" v-if="view_data.remark">
+      <ws-view :view-data="view_data.remark" :view-control="setControl('remark')"></ws-view>
+    </div>
     <el-button type="primary" @click="saveData">添加数据</el-button>
   </div>
 </template>
@@ -52,23 +70,21 @@
           }
         })
       },
-      setControl(key, type) {
+      setControl(key) {
         // 设置组件控制配置
-        var _control = {}
-        if (type === 'Radio') {
-          _control = {
-            title: '是否发布',
-            list: [{
-              val: '1',
-              text: '发布'
-            }, {
-              val: '0',
-              text: '不发布'
-            }, {
-              val: '-1',
-              text: '待发布'
-            }]
-          }
+        var _control = {};
+        var item = this.view_data[key] || {};
+        if (item.type === 'Radio') {
+          _control.list = [{
+            val: '1',
+            text: '发布'
+          }, {
+            val: '0',
+            text: '不发布'
+          }, {
+            val: '-1',
+            text: '待发布'
+          }];
         }
         return _control
       }
@@ -76,8 +92,12 @@
   }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
   .view-page-index {
     position: relative;
+    .wrap-view-item {
+      position: relative;
+      margin: 10px 0 10px 10px;
+    }
   }
 </style>

@@ -98,7 +98,7 @@ function getDbFormatData(res, origin, isFormat) {
     });
   } else {
     _.forEach(_data, function (item, key) {
-      const _result = check(item, key)
+      const _result = check(item, key);
       _res[_result.key] = _result.data
     });
   }
@@ -116,7 +116,8 @@ function getDbFormatData(res, origin, isFormat) {
           // 格式化返回，类型
           result.data = {
             data: isDefault ? getDefault(item.default || '' ) : item,
-            type: (origin.data[key] && origin.data[key].type) || 'String'
+            type: (origin.data[key] && origin.data[key].type) || 'String',
+            label: (origin.data[key] && origin.data[key].label) || '标题',
           }
         } else {
           // 正常返回

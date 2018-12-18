@@ -59,12 +59,13 @@
     .item-title {
       position: relative;
       display: inline-block;
-      vertical-align: middle;
+      vertical-align: top;
     }
     .item-content {
       position: relative;
       display: inline-block;
       vertical-align: middle;
+      min-width: 350px;
     }
   }
 </style>

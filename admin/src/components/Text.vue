@@ -29,7 +29,7 @@
     created() {
       var _self = this
       // 赋初值
-      _self.text = _self.viewData || ''
+      _self.text = _self.viewData || '';
       if (_self.viewControl && _self.viewControl.title) {
         _self.view_control.title = _self.viewControl.title
       }
