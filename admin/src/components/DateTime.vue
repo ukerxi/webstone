@@ -29,7 +29,7 @@
     created() {
       var _self = this
       // 赋初值
-      _self.val = parseInt(_self.viewData) || Date.now()
+      _self.val = new Date(_self.viewData).getTime() || Date.now()
       if (_self.viewControl && _self.viewControl.title) {
         _self.view_control.title = _self.viewControl.title
       }

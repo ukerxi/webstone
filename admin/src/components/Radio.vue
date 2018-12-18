@@ -15,7 +15,7 @@
     props: ['viewData', 'viewControl'],
     data() {
       return {
-        val: '1',
+        val: '',
         view_control: {
           title: '是否显示',
           list: [{
@@ -35,9 +35,9 @@
       }
     },
     created() {
-      var _self = this
+      var _self = this;
       // 赋初值
-      _self.val = _self.viewData
+      _self.val = _self.viewData;
       if (_self.viewControl && _self.viewControl.title) {
         _self.view_control.title = _self.viewControl.title
       }

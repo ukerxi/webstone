@@ -1,17 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
-    {{>header}}
+  {{>header}}
+  <link href="{{baseUrl "/styles/swiper.min.css"}}" rel="stylesheet">
+  <style type="text/css">
+    .swiper-container {
+      width: auto;
+    }
+    .swiper-slide {
+      position: relative;
+      text-align: center;
+    }
+    .item-img {
+      position: relative;
+      display: inline-block;
+      vertical-align: top;
+      width: 100%;
+      max-width: 800px;
+      max-height: 400px;
+    }
+    .jumbotron {
+      margin: 0 0 30px 0;
+      padding: 30px 30px;
+      font-size: 18px;
+    }
+    .jumbotron h1{
+      font-size: 24px;
+    }
+    .jumbotron p{
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+  </style>
 </head>
 <body>
-    {{>view_header}}
-    <div id="body">
-        <h1>webstone</h1>
+  <div id="view_body">
+    <div class="jumbotron">
+      <h1>Webstone</h1>
+      <p>Node.js CMS and web app framework</p>
+      <p>使用 node.js 结合 express、mongodDB及vue.js；进行开发的CMS系统，可以根据自己的需求进行开发网站！</p>
+      <p>使用账号：webstone 密码：123456；进行登录后台进行操作示例 <a target="_blank" href="/admin/" role="button">admin 登录</a></p>
+      <p><a class="btn btn-primary btn-lg" target="_blank" href="https://github.com/ukerxi/webstone" role="button">see code</a></p>
     </div>
-    {{>view_footer}}
+  {{#if data.banners.length}}
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        {{#each data.banners}}
+          <div class="swiper-slide">
+            <img class="item-img" src="{{url}}" alt="{{name}}" title="{{name}}">
+          </div>
+        {{/each}}
+      </div>
+      <!-- 分页器 -->
+      <div class="swiper-pagination"></div>
+    </div>
+    {{/if}}
+  </div>
+  {{>footer}}
+  <script src="{{baseUrl "/js/swiper.min.js"}}"></script>
+  <script type="text/javascript">
+    /* 页面的js */
+    $(function () {
+      var mySwiper = new Swiper ('.swiper-container', {
+        autoplay: {
+          stopOnLastSlide: true
+        },
+        loop: true, // 循环模式选项
+        // 分页器
+        pagination: {
+          el: '.swiper-pagination',
+        },
+      })
+    })
+  </script>
 </body>
-{{>footer}}
-<script type="text/javascript">
-  /* 页面的js */
-</script>
 </html>

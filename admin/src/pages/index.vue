@@ -21,7 +21,9 @@
     <div class="wrap-view-item" v-if="view_data.remark">
       <ws-view :view-data="view_data.remark" :view-control="setControl('remark')"></ws-view>
     </div>
-    <el-button type="primary" @click="saveData">添加数据</el-button>
+    <div class="wrap-view-item add-padding-top" v-if="view_data.remark">
+      <el-button type="primary" @click="saveData">保存数据</el-button>
+    </div>
   </div>
 </template>
 
@@ -46,11 +48,9 @@
       getList() {
         var _self = this;
         request.get({
-          // url: '/api/home/getById',
-          url: '/api/home/getDataKey',
+          url: '/api/home/getOne',
           data: {
-            isFormat: '1',
-            id: '5c13270c970fe62064048a42'
+            isFormat: '1'
           },
           callback: function (res) {
             if (res.code === '0000') {
@@ -63,7 +63,7 @@
         var _self = this;
         var _params = getViewData(_self.view_data || {});
         request.post({
-          url: '/api/home/add',
+          url: '/api/home/update',
           data: _params,
           callback: function (res) {
             console.log(res)
@@ -98,6 +98,12 @@
     .wrap-view-item {
       position: relative;
       margin: 10px 0 10px 10px;
+    }
+    .view-center {
+      text-align: center;
+    }
+    .add-padding-top {
+      padding-top: 20px;
     }
   }
 </style>

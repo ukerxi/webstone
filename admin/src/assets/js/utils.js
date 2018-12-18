@@ -40,7 +40,11 @@ export function getViewData(source) {
   for (let key in source) {
     if (hasOwnPrototype.call(source, key)) {
       if (source[key]) {
-        _data[key] = source[key].data
+        if (typeof source[key].data !== 'undefined') {
+          _data[key] = source[key].data
+        } else {
+          _data[key] = source[key]
+        }
       } else {
         _data[key] = '';
       }
