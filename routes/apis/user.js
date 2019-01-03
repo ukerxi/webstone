@@ -76,6 +76,7 @@ routeList.push({
             req.session.user_id = _user.id;
             resData.info = '登录成功';
           } else {
+            resData.code = '1001';
             resData.info = '密码错误';
           }
         }

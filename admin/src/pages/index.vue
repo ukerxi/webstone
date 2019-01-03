@@ -1,27 +1,11 @@
 <template>
   <div class="view-page-index">
-    <div class="wrap-view-item" v-if="view_data.title">
-      <ws-view :view-data="view_data.title" :view-control="setControl('title')"></ws-view>
-    </div>
-    <div class="wrap-view-item" v-if="view_data.notice">
-      <ws-view :view-data="view_data.notice" :view-control="setControl('notice')"></ws-view>
-    </div>
-    <div class="wrap-view-item" v-if="view_data.isShow">
-      <ws-view :view-data="view_data.isShow" :view-control="setControl('isShow')"></ws-view>
-    </div>
-    <div class="wrap-view-item" v-if="view_data.showTime">
-      <ws-view :view-data="view_data.showTime" :view-control="setControl('showTime')"></ws-view>
-    </div>
-    <div class="wrap-view-item" v-if="view_data.banners">
-      <ws-view :view-data="view_data.banners" :view-control="setControl('banners')"></ws-view>
-    </div>
-    <div class="wrap-view-item" v-if="view_data.backgroundColor">
-      <ws-view :view-data="view_data.backgroundColor" :view-control="setControl('backgroundColor')"></ws-view>
-    </div>
-    <div class="wrap-view-item" v-if="view_data.remark">
-      <ws-view :view-data="view_data.remark" :view-control="setControl('remark')"></ws-view>
-    </div>
-    <div class="wrap-view-item add-padding-top" v-if="view_data.remark">
+    <template v-for="(item, key) in key_list">
+      <div class="wrap-view-item" v-if="setData(item)">
+        <ws-view :view-data="setData(item)" :view-control="setControl(item)"></ws-view>
+      </div>
+    </template>
+    <div class="wrap-view-item add-padding-top">
       <el-button type="primary" @click="saveData">保存数据</el-button>
     </div>
   </div>
@@ -38,7 +22,8 @@
     },
     data() {
       return {
-        view_data: {}
+        view_data: {},
+        key_list: ['title', 'notice', 'isShow', 'showTime', 'banners', 'backgroundColor', 'remark'], // 定义渲染列表的字段，决定了渲染顺序
       }
     },
     created () {
@@ -69,6 +54,11 @@
             console.log(res)
           }
         })
+      },
+      setData(key) {
+        // 渲染数据
+        var _self = this;
+        return _self.view_data[key]
       },
       setControl(key) {
         // 设置组件控制配置
