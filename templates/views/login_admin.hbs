@@ -117,10 +117,9 @@
       }
     }, function(res) {
       if (res.code === '0000') {
-        alert('登录成功');
-        setTimeout(function () {
-          window.location.href = '/admin/'
-        }, 2000);
+        window.location.href = '/admin/'
+      } else {
+        alert(res.info || '登录失败');
       }
     });
   });
