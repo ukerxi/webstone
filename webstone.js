@@ -31,9 +31,10 @@ const globalConfig = {
 // 导出配置
 module.exports = globalConfig;
 
-const Webstone = require('./core/webstone.js');
 // 正式环境直接初始化
+let Webstone = '';
 if (globalConfig.env === 'pro') {
+  Webstone = require('./core/webstone.js');
   // 初始化配置
   Webstone.init(globalConfig);
   // 启动项目

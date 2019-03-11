@@ -12,8 +12,8 @@ function add (param, callback) {
   const home = new HomeModel({
     title: param.title,
     notice: param.notice,
-    isShow: param.isShow,
-    showTime: param.showTime,
+    isShow: !!param.isShow,
+    showTime: param.showTime || Date.now(),
     banners: param.banners,
     backgroundColor: param.backgroundColor,
     remark: param.remark

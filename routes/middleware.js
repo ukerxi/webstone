@@ -4,7 +4,7 @@ module.exports = {
     const accept = req.header('Accept');
     res.locals = {};
     // 添加针对时候
-    if (accept.indexOf('text/html') !== -1) {
+    if (accept && accept.indexOf('text/html') !== -1) {
       // 对于页面进行添加公用的数据初始化
       res.locals = {};
       res.locals.name = 'Webstone';

@@ -173,6 +173,7 @@ Webstone.prototype.start = function (newApp) {
   app.engine('.hbs', hbs.engine);
   app.set('views', path.resolve(__dirname, '../', self.get('engine_config').viewsDir));
   app.set('view engine', '.hbs');
+  // 自定义及页面路由
   _.forEach(viewRoutes.list, function (item) {
     if (item.path && typeof item.handler !== 'undefined') {
       if (_.indexOf(['get', 'post', 'put', 'del', 'all'], item.method) === -1) {
