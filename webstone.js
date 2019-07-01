@@ -8,7 +8,7 @@ const globalConfig = {
   name: 'webstone', // project name
   static_path: 'public', // static file path
   port: 3000,
-  env: 'dev', // pro / dev 环境区分
+  env: 'pro', // pro / dev 环境区分
   engine: 'handlebars',
   logger: false, // 是否开启logger
   engine_config: {
