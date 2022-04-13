@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/ukerxi/webstone#readme",
   "dependencies": {
-    "async": "^2.6.1",
+    "async": "^3.2.2",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "connect-mongo": "^2.0.3",
